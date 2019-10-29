@@ -1,0 +1,134 @@
+
+
+
+
+\newcommand{\myteam}{Team WoodUmind?} 
+\title{Lumberjack\footnote{This is a report on the course 
+    project for the course CS211 Data Structures and Algorithms Lab}}
+\author{\myteam\footnote{Email IDs of team members:180010012\texttt{@iitdh.ac.in},180020009\texttt{@iitdh.ac.in},180010025\texttt{@iitdh.ac.in}}\\
+    {\small Janhavikumari Dadhania (180010012)} \\
+    {\small Joshitha Gandra (180020009)} \\
+    {\small Sri priya Pokuri (180010025)} \\
+    {\small Computer Science and Engineering, IIT Dharwad}\\
+}
+\date{\today}
+
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage[colorlinks=true]{hyperref}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper describes the algorithm and heuristics followed by the program written by \myteam\ for the 
+\textit{Lumberjack} problem listed in the online platform 
+\href{https://www.optil.io/optilion}{optil.io.} 
+\end{abstract}
+
+\section{Result of Running The Algorithm}
+Purpose of the algorithm is to maximise the profit achieved in given limited time. To achieve that algorithm first follow the greedy way to move in the grid till the end of time. Then it try to replace all those moves which has less importance then some threshold value with new moves. 
+In the implemented algorithm the threshold value is roughly directly proportional to total profit of whole grid and finalised by trial and error method.
+\section{Data Structures Used}
+Array\\
+Multidimentional array
+
+\section{Technique}
+Steps that algorithm follows\\ \\ \\
+1.calculate the profit that each tree gives when it falls left,right,up or down and store into array left[k], right[k], up[k], down[k].\\ \\
+2.From the current position go the tree which is nearest and follows the condition that profit by one of the domino of that tree is greater then some threshold value.\\ \\
+3.Reach the tree and cut it in the direction which gives the highest profit.\\ \\
+4. update current position, all the profit arrays and repeate the process till the end of the time.\\ \\
+Algorithm can be divided into following sub-parts.
+\\
+
+- defining the grid\\ % using multidimentional array to store the information about position and status of the tree(cut or not) at that position.
+
+- defining arrays to store profit\\ % right, left, up, down. All of length k to store total profit value when tree falls in those direction.
+
+- while loop to move along the grid
+
+
+\subsection{Defining the grid}
+Multidimentional array grid of size [n]X[n] is defined. Each element in array represent node in given input. The value of element is "i" if ith tree is present at that position in grid, -1 otherwise.\\ \\
+If current position is xnow,ynow then tree value at that position can be obtained by grid[xnow][ynow].\\
+If it is -1 then no tree is present.\\ \\
+If the current position is xnow,ynow then all variables related to tree at position xnow,ynow can be obtained using grid element values.\\
+height: h[grid[xnow][ynow]]\\
+cost:   c[grid[xnow][ynow]]\\
+x position:      x[grid[xnow][ynow]]\\
+y position:      y[grid[xnow][ynow]]\\
+diametre:   d[grid[xnow][ynow]]\\
+price:      p[grid[xnow][ynow]]\\ \\
+These grid element values need to be updated after cutting every tree.\\
+
+\subsection{Defining arrays to store profit}
+Four arrays right , left , up , down are defined.\\
+Array right has length k. The value right[i] will be total profit when ith tree is cut right side.(It includes all profits by all trees that falls due to domino effect). Same for other three arrays.\\
+\\
+Psuedo code:\\
+xnow = present position x value
+ynow = present position y value
+\\
+for i from 0 to k :\\
+
+xnow=x[i];
+\\
+
+ynow=y[i];
+
+profit=p[i]*h[i]*d[i];
+
+weightnow=c[i]*h[i]*d[i]; \ \ stores weight of the tree which is falling\\
+
+
+for j from xnow+1 to xnow+h[grid[xnow][ynow]] :
+
+ |    if grid[j][ynow]!=-1 : 
+
+|        if weightnow is greater then c[grid[j][ynow]]*h[grid[j][ynow]]*d[grid[j][ynow]]  
+
+
+                    ............profit+=p[grid[j][ynow]]*h[grid[j][ynow]]*d[grid[j][ynow]];
+                   
+
+
+ ............weightnow=c[grid[j][ynow]]*h[grid[j][ynow]]*d[grid[j][ynow]];\\
+
+
+                    xnow=j;
+
+
+
+        rightall[i]=profit;\\ \\ 
+same for others as well. These values need to be updated after every iteration because falling of some trees will reduce effect the total domino profit of other trees.\\
+
+   
+\subsection{While loop to move along the grid}
+Maximum profit of ith tree is highest of right[i], left[i]. up[i], down[i]\\
+
+psuedo code:\\
+
+while time is greater than zero:\\
+
+....find the tree which is nearest to the current position and the maximum ........profit of that tree is greater then (some fraction p) * total profit of whole ........grid.
+
+....Reach the position of that tree and cut in appropriate direction.
+
+....Update grid and all the arrays associated with the remaining trees.\\ 
+
+\section{Correctness}
+Consider 1,2,3,4,5,6,7,8,9 as available values of profit one can acheive from grid in the order of distance from current position. Time available is t and assuming that trees are uniformly distributed we can go to at max four trees.\\
+Greedy approch will cut trees 1,2,3,4 to achieve profit 10.\\
+The algorithm followed will relpace all the trees with profit less then (say 9*0.5) and will try to cut 5,6,7,8. Total profit in that case would be 26.
+
+\section{Analysis}
+updating arrays take n*k time in worst case.\\
+updating grid takes constant time.\\
+Time for which while loop runs is directly proportional to t.\\
+so, total time complexity is roughly t*n*k.
+
+\bibliographystyle{abbrv}
+\bibliography{lj}
+
+\end{document}
+This is never printed
