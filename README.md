@@ -1,3 +1,3 @@
 # Lumberjack
-- main source code in .cpp file.
-- run the .tex and print .dvi to pdf.
+
+  This contains the algorithm used for soving problem **lumberjack** in [optil](https://www.optil.io/optilion/)
